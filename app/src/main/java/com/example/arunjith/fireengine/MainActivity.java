@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         pSocket.connect();
 
         webView = (WebView) findViewById(R.id.webView);
-        webView.loadUrl("http://192.168.43.111/html/cam_pic_new.php?time=1554025846105&pDelay=40000");
+        webView.loadUrl("http://192.168.1.6/html/cam_pic_new.php?time=1554025846105&pDelay=40000");
 
         tempHumid = (TextView) findViewById(R.id.temp_humid);
         waterLevel = (TextView) findViewById(R.id.water_level);
@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         seekBarBase = (SeekBar) findViewById(R.id.base_seek);
         seekBarLeft = (SeekBar) findViewById(R.id.left_seek);
         seekBarRight = (SeekBar) findViewById(R.id.right_seek);
+
+        pumpSwitch = (Switch) findViewById(R.id.pump_switch);
 
 
         seekBarBase.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                sendMessage("base-", seekBar.getProgress());
+                sendNodeMsg("base-", seekBar.getProgress());
             }
         });
 
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                sendMessage("right-", seekBar.getProgress());
+                sendNodeMsg("right-", seekBar.getProgress());
             }
         });
 
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                sendMessage("left-", seekBar.getProgress());
+                sendNodeMsg("left-", seekBar.getProgress());
             }
         });
 
@@ -214,7 +216,9 @@ public class MainActivity extends AppCompatActivity {
         pumpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    
+                    sendNodeMsg("pumpOn-", 1);
+                } else {
+                    sendNodeMsg("pumpOff-", 1);
                 }
             }
         });
@@ -304,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sendMessage(String s, int i) {
+    public void sendNodeMsg(String s, int i) {
         if (ws.isOpen()) {
             ws.sendText(s + Integer.toString(i));
         }
