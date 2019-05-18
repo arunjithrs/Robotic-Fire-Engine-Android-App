@@ -53,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
     SeekBar seekBarBase;
     SeekBar seekBarLeft;
     SeekBar seekBarRight;
+    SeekBar pumpSeed;
 
     Switch pumpSwitch;
+    TextView percView;
 
     private Socket mSocket;
     {
@@ -128,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         seekBarRight = (SeekBar) findViewById(R.id.right_seek);
 
         pumpSwitch = (Switch) findViewById(R.id.pump_switch);
+        pumpSeed = (SeekBar) findViewById(R.id.pump_seed);
+        percView = (TextView) findViewById(R.id.perc_view);
 
 
         seekBarBase.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -216,10 +220,29 @@ public class MainActivity extends AppCompatActivity {
         pumpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    sendNodeMsg("pumpOn-", 1);
+                    Log.i("pumpsseeek", String.valueOf(pumpSeed.getProgress()));
+                    sendNodeMsg("pumpOn-", pumpSeed.getProgress());
                 } else {
-                    sendNodeMsg("pumpOff-", 1);
+                    sendNodeMsg("pumpOff-",  pumpSeed.getProgress());
                 }
+            }
+        });
+
+        pumpSeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                float perc = (i * 100) / 1023;
+                percView.setText("Speed: " + perc + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                sendNodeMsg("speed-", seekBar.getProgress());
             }
         });
 

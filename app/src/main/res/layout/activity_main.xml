@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_above="@id/joystickView"
             android:layout_marginTop="50dp">
 
@@ -95,7 +95,33 @@
                 android:textColor="#fff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:text="Pump - ON / OFF "/>
+
+            <SeekBar
+                android:layout_alignParentBottom="true"
+                android:paddingRight="40dp"
+                android:layout_marginRight="70dp"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="80dp"
+                android:layout_marginLeft="60dp"
+                android:id="@+id/pump_seed"
+                android:layout_below="@+id/pump_switch"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:min="0"
+                android:max="1023"
+                android:scaleX="2"
+                android:scaleY="2"/>
+
+            <TextView
+                android:textColor="#fff"
+                android:layout_above="@+id/pump_seed"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/perc_view"/>
+
         </RelativeLayout>
 
         <RelativeLayout
